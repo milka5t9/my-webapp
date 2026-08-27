@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить товар</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            padding: 20px;
+            margin: 0;
+        }
+        h2 { text-align: center; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            color: var(--tg-theme-text-color, #000000);
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>🛍 Новый товар</h2>
+    <div class="form-group">
+        <label>Название товара</label>
+        <input type="text" id="name" placeholder="Например: iPhone 13 Pro">
+    </div>
+    <div class="form-group">
+        <label>Цена (в рублях)</label>
+        <input type="number" id="price" placeholder="Например: 55000">
+    </div>
+    <div class="form-group">
+        <label>Описание</label>
+        <textarea id="description" rows="4" placeholder="Расскажите о состоянии, комплекте и т.д."></textarea>
+    </div>
+    <button id="submit">Продолжить (прикрепить фото) 📸</button>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        document.getElementById('submit').addEventListener('click', function() {
+            let name = document.getElementById('name').value.trim();
+            let price = document.getElementById('price').value.trim();
+            let description = document.getElementById('description').value.trim();
+            if (!name || !price || !description) {
+                alert('Пожалуйста, заполните все поля!');
+                return;
+            }
+
+            let data = {
+                name: name,
+                price: price,
+                description: description
+            };
+
+            tg.sendData(JSON.stringify(data));
+        });
+    </script>
+</body>
+</html>
